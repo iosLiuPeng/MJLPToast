@@ -151,6 +151,20 @@ static MJLPToast *s_Singleton = nil;
         window = [UIApplication sharedApplication].keyWindow;
     }
     
+    // keyWindow隐藏的情况
+    if (window.isHidden) {
+        NSMutableArray *arrDisplay = [[NSMutableArray alloc] init];
+        for (UIWindow *aWindow in [UIApplication sharedApplication].windows) {
+            if ([aWindow isMemberOfClass:UIWindow.class] &&
+                aWindow.hidden == NO &&
+                CGRectEqualToRect(aWindow.bounds, [UIScreen mainScreen].bounds)) {
+                [arrDisplay addObject:aWindow];
+            }
+        }
+ 
+        window = arrDisplay.lastObject;
+    }
+    
     return window;
 }
 
